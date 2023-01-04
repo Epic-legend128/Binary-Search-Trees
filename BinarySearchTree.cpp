@@ -62,27 +62,6 @@ void print_Postorder(node* root) {
     std::cout << root->data<< "\n";
 }
 
-//swaps 2 nodes
-void swapNodes(node* child, node* p) {
-    p->parent = child->parent;
-    child->parent = p;
-    
-    node* temp = new node();
-    temp->left = child->left;
-    temp->right = child->right;
-    p->left = child->left;
-    p->right = child->right;
-    child->left = temp->left;
-    child->right = temp->right;
-    
-    if ((p->parent)->right == child) {
-        (p->parent)->right = p;
-    }
-    else {
-        (p->parent)->left = p;
-    }
-}
-
 //insert for binary search trees
 void insert(node* &root, node* p) {
     if (p->data > root->data) {
