@@ -46,12 +46,12 @@ void print(node* root) {
     print(root->right);
 }
 
-//Preorder(root, right, left)
+//Preorder(root, left, right)
 void print_Preorder(node* root) {
     if (root == nullptr) return;
     std::cout << root->data<< "\n";
-    print_Preorder(root->right);
     print_Preorder(root->left);
+    print_Preorder(root->right);
 }
 
 //Postorder(left, right, root)
@@ -88,6 +88,53 @@ node* find_root(node* p) {
     return find_root(p->parent);
 }
 
+//delete the given node
+void del(node* n) {
+    if (n == nullptr) return;
+
+    if (n->left == nullptr && n->right == nullptr) {
+        if (n->parent == nullptr) return;
+        else {
+            if (n->parent->left != nullptr && n->parent->left == n) {
+                n->parent->left = nullptr;
+            }
+            else if (n->parent->right != nullptr && n->parent->right == n) {
+                n->parent->right = nullptr;
+            }
+        }
+    }
+    else if (n->left == nullptr) {
+        n->right->parent = n->parent;
+        if (n->parent != nullptr) {
+            if (n->parent->left != nullptr && n->parent->left == n) n->parent->left = n->right;
+            else if (n->parent->right != nullptr && n->parent->right == n) n->parent->right = n->right;
+        }
+    }
+    else if (n->right == nullptr) {
+        n->left->parent = n->parent;
+        if (n->parent != nullptr) {
+            if (n->parent->left != nullptr && n->parent->left == n) n->parent->left = n->left;
+            else if (n->parent->right != nullptr && n->parent->right == n) n->parent->right = n->left;
+        }
+    }
+    else {
+        std::cout << "Both children\n";
+        node* replace = find_max(n->left);
+        if (replace->parent != n) {
+            replace->left = n->left;
+            n->left->parent = replace;
+        }
+
+        replace->right = n->right;
+        replace->parent = n->parent;
+
+        n->right->parent = replace;
+    }
+
+    delete n;
+}
+
+
 int main() {
     srand(time(0)); //this is just for the random numbers nothing to do with the trees
     const int LIMIT = 100; //the range of the values that the nodes can have is from 0 to 100
@@ -109,10 +156,10 @@ int main() {
     }
     std::cout << "\n";
     std::cout << "The elements of the tree printed using Inorder:\n";
-    print(head); //print the elements from left to right so from smallest to biggest(right, root, left)
+    print(head); //print the elements from left to right so from smallest to biggest(left, root, right)
     std::cout <<"\n";
     std::cout << "The elements of the tree printed using Preorder:\n";
-    print_Preorder(head); //first print the root then the recursively the right side and then recursively the left side(root, right, left)
+    print_Preorder(head); //first print the root then the recursively the left side and then recursively the right side(root, left, left)
     std::cout <<"\n";
     std::cout << "The elements of the tree printed using Postorder:\n";
     print_Postorder(head); //first print recursively the left side, then the right side and then the root(left, right, root)
@@ -127,10 +174,16 @@ int main() {
     std::cout << "The smallest value in the tree: "<<find_min(head)->data<<"\n";
 
     std::cout << "The root node has a value of "<<find_root(p[rand()%ELEMENTS])->data<<"\n";
+
     
     node* randomValue = new node();
     randomValue->data = p[rand()%ELEMENTS]->data;
     node* temp = find_num(head, randomValue);
     std::cout << "The value "<< randomValue->data<<" when put as an argument in the search function will return a node with the value of "<< temp->data<<" "<<((temp->parent!=nullptr)?("and parent with a value of "+std::to_string(temp->parent->data)):" and it is the head node")<<"\n";
+    
+    int data = find_max(head)->data;
+    del(find_max(head));
+    std::cout << "After deleting "<<data<<" Inorder is:\n";
+    print(head);
     return 0;
 }
