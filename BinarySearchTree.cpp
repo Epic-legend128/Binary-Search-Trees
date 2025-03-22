@@ -38,10 +38,11 @@ node* find_min(node* root) {
 }
 
 //this function finds a specific node in a binary search tree
-/* Searches and returns a node
+/* Searches and returns a node, returns nullptr if node doesn't exist
 @param root root of the tree 
-@param key value that you are searching for*/
+@param key value that you are searching for */
 node* find_num(node* root, int key) {
+    if (root == nullptr) return nullptr;
     if (root->data > key) return find_num(root->left, key);
     else if (root->data < key) return find_num(root->right, key);
     return root;
@@ -206,7 +207,12 @@ int main() {
     
     int randomValue = p[rand()%ELEMENTS]->data;
     node* temp = find_num(head, randomValue);
-    std::cout << "The value "<< randomValue<<" when put as an argument in the search function will return a node with the value of "<< temp->data<<" "<<((temp->parent!=nullptr)?("and parent with a value of "+std::to_string(temp->parent->data)):" and it is the head node")<<"\n";
+    if (temp == nullptr) {
+        std::cout << "Node not found\n";
+    }
+    else {
+        std::cout << "The value "<< randomValue<<" when put as an argument in the search function will return a node with the value of "<< temp->data<<" "<<((temp->parent!=nullptr)?("and parent with a value of "+std::to_string(temp->parent->data)):" and it is the head node")<<"\n";
+    }
     
     int data = find_max(head)->data;
     del(find_max(head));
@@ -216,5 +222,3 @@ int main() {
     print(arr);
     return 0;
 }
-
-
