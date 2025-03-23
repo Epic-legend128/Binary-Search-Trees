@@ -177,7 +177,10 @@ class BST {
             if (n == nullptr) return;
 
             if (n->left == nullptr && n->right == nullptr) {
-                if (n->parent == nullptr) return;
+                if (n->parent == nullptr) {
+                    root = nullptr;
+                    return;
+                }
                 else {
                     if (n->parent->left != nullptr && n->parent->left == n) {
                         n->parent->left = nullptr;
@@ -193,6 +196,9 @@ class BST {
                     if (n->parent->left != nullptr && n->parent->left == n) n->parent->left = n->right;
                     else if (n->parent->right != nullptr && n->parent->right == n) n->parent->right = n->right;
                 }
+                else {
+                    root = n->right;
+                }
             }
             else if (n->right == nullptr) {
                 n->left->parent = n->parent;
@@ -200,10 +206,14 @@ class BST {
                     if (n->parent->left != nullptr && n->parent->left == n) n->parent->left = n->left;
                     else if (n->parent->right != nullptr && n->parent->right == n) n->parent->right = n->left;
                 }
+                else {
+                    root = n->left;
+                }
             }
             else {
                 node* replace = find_max(n->left);
                 if (replace->parent != n) {
+                    replace->parent->right = replace->left;
                     replace->left = n->left;
                     n->left->parent = replace;
                 }
@@ -212,9 +222,19 @@ class BST {
                 replace->parent = n->parent;
 
                 n->right->parent = replace;
+
+                if (n->parent == nullptr) {
+                    root = replace;
+                }
+                else {
+                    if (n->parent->right == n) n->parent->right = replace;
+                    else n->parent->left = replace;
+                }
+
+                if (n->parent == nullptr) root = replace;
             }
 
-            delete n;
+            if (n->parent != nullptr) delete n;
         }
     
         /* Delete node from the BST

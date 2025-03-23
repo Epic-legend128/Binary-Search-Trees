@@ -43,7 +43,7 @@ int main() {
     std::cout << "The elements of the tree printed using Postorder:\n";
     bst->postorder(arr); //first print recursively the left side, then the right side and then the root(left, right, root)
     print(arr);
-    std::cout <<"\n";
+    std::cout <<"\n\n";
     
     std::cout << "Minimum height of the tree: " << bst->min_height()<<"\n";
     
@@ -53,18 +53,18 @@ int main() {
     
     std::cout << "The smallest value in the tree: "<<bst->find_min()->data<<"\n";
 
-    std::cout << "The root node has a value of "<<bst->get_root()->data<<"\n";
+    std::cout << "The root node has a value of "<<bst->get_root()->data<<"\n\n";
 
     
     int randomValue = p[rand()%ELEMENTS];
     node* temp = bst->find(randomValue);
     if (temp == nullptr) {
-        std::cout << "Node not found\n";
+        std::cout << "Node not found\n\n";
     }
     else {
-        std::cout << "The value "<< randomValue<<" when put as an argument in the search function will return a node with the value of "<< temp->data<<" "<<((temp->parent!=nullptr)?("and parent with a value of "+std::to_string(temp->parent->data)):" and it is the head node")<<"\n";
+        std::cout << "The value "<< randomValue<<" when put as an argument in the search function will return a node with the value of "<< temp->data<<" "<<((temp->parent!=nullptr)?("and parent with a value of "+std::to_string(temp->parent->data)):" and it is the head node")<<"\n\n";
     }
-    
+
     bst->del(randomValue);
     std::cout << "After deleting "<<randomValue<<" Inorder is:\n";
     arr.clear();
