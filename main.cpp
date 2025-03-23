@@ -1,6 +1,6 @@
 #include <iostream>
 #include <random>
-#include "BST.hpp"
+#include "RBT.hpp"
 
 #define print(a) for(int x: a) std::cout << x<<' ';
 
@@ -70,6 +70,33 @@ int main() {
     arr.clear();
     bst->inorder(arr);
     print(arr);
+
+    std::cout << "\n\nRed-Black Tree\n";
+    RBT* rbt = new RBT(20);
+    rbt->insert(10);
+    rbt->insert(30);
+    rbt->insert(40);
+    rbt->insert(50);
+    rbt->insert(60);
+    rbt->insert(70);
+    rbt->insert(80);
+    rbt->insert(65);
+    rbt->insert(5);
+    rbt->insert(8);
+    rbt->insert(2);
+    rbt->insert(1);
+    rbt->insert(100);
+    rbt->insert(101);
+    rbt->insert(102);
+    rbt->insert(0);
+    rbt->insert(25);
+    rbt->insert(6);
+    rbt->insert(23);
+    rbt->insert(26);
+    arr.clear();
+    rbt->preorder(arr);
+    print(arr);
+    std::cout << '\n';
     return 0;
 }
 

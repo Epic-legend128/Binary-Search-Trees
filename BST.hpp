@@ -6,17 +6,22 @@ struct node {
     node* left = nullptr;
     node* right = nullptr;
     node* parent = nullptr;
+    bool isRed = true; // only used for Red-Black Trees
 
     node(int d) {
         data = d;
+    }
+
+    node(bool c) {
+        isRed = c;
     }
 
     node() = default;
 };
 
 class BST {
-    private:
-        node* root = new node();
+    protected:
+        node* root = new node(false);
 
         /* Returns minimum height of the tree
         @param root root of the BST */
@@ -89,7 +94,7 @@ class BST {
         /* Insert node in BST
         @param root root of the tree
         @param p node to be inserted */
-        void insert(node* &root, int p) {
+        virtual void insert(node* &root, int p) {
             if (p > root->data) {
                 if (root->right == nullptr) {
                     node* t = new node(p);
@@ -162,7 +167,7 @@ class BST {
 
         /* Insert node in BST
         @param p node to be inserted */
-        void insert(int p) {
+        virtual void insert(int p) {
             insert(this->root, p);
         }
 
