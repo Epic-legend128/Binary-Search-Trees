@@ -245,7 +245,8 @@ class BST {
         /* Delete node from the BST
         @param n value of node to be deleted */
         void del(int n) {
-            del(find(n));
+            node* x = find(n);
+            if (x != nullptr) del(x);
         }
 
 };
